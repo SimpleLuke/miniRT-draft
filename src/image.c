@@ -6,11 +6,22 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 14:02:51 by llai              #+#    #+#             */
-/*   Updated: 2024/04/20 14:03:54 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/20 14:37:00 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/minirt.h"
+
+// Convert x and y to center origin (0,0)
+void	put_pixel(t_img img, int x, int y, int color)
+{
+	int	new_x;
+	int	new_y;
+
+	new_x = (WIDTH / 2) + x;
+	new_y = (HEIGHT / 2) - y;
+	put_pixel_img(img, new_x, new_y, color);
+}
 
 void	put_pixel_img(t_img img, int x, int y, int color)
 {

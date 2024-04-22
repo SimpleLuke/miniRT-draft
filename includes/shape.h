@@ -1,0 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shape.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/20 16:15:33 by llai              #+#    #+#             */
+/*   Updated: 2024/04/22 12:43:28 by llai             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef SHAPE_H
+# define SHAPE_H
+
+# include "vec3.h"
+
+typedef struct s_sphere
+{
+	t_vec3	center;
+	double	radius;
+	int		color;
+}	t_sphere;
+
+#endif // !SHAPE_H
