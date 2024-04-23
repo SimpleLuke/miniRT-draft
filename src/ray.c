@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:50:15 by llai              #+#    #+#             */
-/*   Updated: 2024/04/23 00:43:38 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/23 01:53:54 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N)
 			}
 		}
 	}
+	// printf("%f\n", i);
 	return (i);
 }
 
@@ -105,6 +106,13 @@ int	traceray(t_data *data, double t_min, double t_max)
 	t_vec3	P = plus_vec3(data->camera, scalar_mul_vec3(closest_t, data->D));
 	t_vec3	N = minus_vec3(P, closest_sphere->center);
 	N = scalar_dev_vec3(N, v_length(N));
+
+	double light = compute_lighting(data, P, N);
+	int	t = get_t(closest_sphere->color) * light;
+	int	r = get_r(closest_sphere->color) * light;
+	int	g = get_g(closest_sphere->color) * light;
+	int	b = get_b(closest_sphere->color) * light;
 	
-	return (closest_sphere->color * compute_lighting(data, P, N));
+	// return (closest_sphere->color * compute_lighting(data, P, N));
+	return (create_trgb(t, r, g, b));
 }

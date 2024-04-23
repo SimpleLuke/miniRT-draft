@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:48 by llai              #+#    #+#             */
-/*   Updated: 2024/04/23 00:20:46 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/23 01:51:17 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ typedef struct s_data
 t_win	new_window(int w, int h, char *str);
 
 int		create_trgb(int t, int r, int g, int b);
+int		get_t(int trgb);
+int		get_r(int trgb);
+int		get_g(int trgb);
+int		get_b(int trgb);
 
 void	put_pixel(t_img img, int x, int y, int color);
 void	put_pixel_img(t_img img, int x, int y, int color);
