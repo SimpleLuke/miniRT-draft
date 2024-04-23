@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:50:15 by llai              #+#    #+#             */
-/*   Updated: 2024/04/23 01:53:54 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/23 15:00:58 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,15 @@ double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N)
 			{
 				L = minus_vec3(data->lights[idx].position, P);
 			}
-			else
+			else if (data->lights[idx].type == DIRECTIONAL)
 			{
-				L = data->lights[idx].position;
+				L = data->lights[idx].direction;
+				// L.x = data->lights[idx].position.x;
+				// L.y = data->lights[idx].position.y;
+				// L.z = data->lights[idx].position.z;
+				// printf("N: %f, %f, %f\n", N.x, N.y, N.z);
+				// printf("L: %f, %f, %f\n", L.x, L.y, L.z);
+				// printf("DIR: %f\n", dot(N,L));
 			}
 
 			double	n_dot_l = dot(N, L);
@@ -71,7 +77,6 @@ double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N)
 			}
 		}
 	}
-	// printf("%f\n", i);
 	return (i);
 }
 

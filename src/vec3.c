@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:08:55 by llai              #+#    #+#             */
-/*   Updated: 2024/04/23 00:42:20 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/23 14:56:29 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_vec3	scalar_dev_vec3(t_vec3 lhs, double rhs)
 {
 	t_vec3	result;
 
+	// printf("len: %f\n", rhs);
 	result.x = lhs.x / rhs;
 	result.y = lhs.y / rhs;
 	result.z = lhs.z / rhs;

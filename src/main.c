@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:43:24 by llai              #+#    #+#             */
-/*   Updated: 2024/04/23 01:47:41 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/23 15:01:10 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(void)
 	data.spheres[3].center.x = 0;
 	data.spheres[3].center.y = -5001;
 	data.spheres[3].center.z = 0;
-	data.spheres[3].color = create_trgb(0, 255, 255, 255);
+	data.spheres[3].color = create_trgb(0, 255, 255, 0);
 
 	data.light_nb = 3;
 	data.lights = malloc(data.light_nb * sizeof(t_light));
