@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:08:55 by llai              #+#    #+#             */
-/*   Updated: 2024/04/23 14:56:29 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/24 21:10:11 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,13 @@ t_vec3	scalar_mul_vec3(double lhs, t_vec3 rhs)
 {
 	t_vec3	result;
 
+	// if (lhs == -1)
+	// 	printf("x: %f y: %f z: %f\n", rhs.x, rhs.y, rhs.z);
 	result.x = lhs * rhs.x;
 	result.y = lhs * rhs.y;
 	result.z = lhs * rhs.z;
+	// if (lhs == -1)
+	// 	printf("res: x: %f y: %f z: %f\n", result.x, result.y, result.z);
 	return (result);
 }
 

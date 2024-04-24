@@ -6,11 +6,12 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:50:15 by llai              #+#    #+#             */
-/*   Updated: 2024/04/23 15:00:58 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/24 21:30:45 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+#include <math.h>
 
 t_vec3	canvas_to_viewport(double x, double y, t_data *data)
 {
@@ -42,7 +43,7 @@ void	intersect_ray_sphere(t_data *data, t_sphere sphere, double *t1, double *t2)
 	*t2 = (-b - sqrt(discriminant)) / (2 * a);
 }
 
-double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N)
+double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N, t_vec3 V, double specular)
 {
 	t_vec3	L;
 	double	i = 0.0;
@@ -62,24 +63,37 @@ double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N)
 			else if (data->lights[idx].type == DIRECTIONAL)
 			{
 				L = data->lights[idx].direction;
-				// L.x = data->lights[idx].position.x;
-				// L.y = data->lights[idx].position.y;
-				// L.z = data->lights[idx].position.z;
-				// printf("N: %f, %f, %f\n", N.x, N.y, N.z);
-				// printf("L: %f, %f, %f\n", L.x, L.y, L.z);
-				// printf("DIR: %f\n", dot(N,L));
 			}
 
+			// Diffuse
 			double	n_dot_l = dot(N, L);
 			if (n_dot_l > 0)
 			{
 				i += data->lights[idx].intensity * n_dot_l / (v_length(N) * v_length(L));
 			}
+
+			// Specular
+			if (specular != -1)
+			{
+				t_vec3	R = scalar_mul_vec3(2 * dot(N, L), N);
+				// R = scalar_mul_vec3(dot(N, L), R);
+				R = minus_vec3(R, L);
+				double	r_dot_v = dot(R, V);
+				if (r_dot_v > 0)
+				{
+					// double tmp = i;
+					i += data->lights[idx].intensity * pow(r_dot_v / (v_length(R) * v_length(V)), specular);
+			// 		if (tmp != i)
+			// 		{
+			// printf("before: %f\n", tmp);
+			// printf("after: %f\n", i);
+			// 		}
+				}
+			}
 		}
 	}
 	return (i);
 }
-
 
 int	traceray(t_data *data, double t_min, double t_max)
 {
@@ -112,12 +126,27 @@ int	traceray(t_data *data, double t_min, double t_max)
 	t_vec3	N = minus_vec3(P, closest_sphere->center);
 	N = scalar_dev_vec3(N, v_length(N));
 
-	double light = compute_lighting(data, P, N);
+	double light = compute_lighting(data, P, N, scalar_mul_vec3(-1, data->D), closest_sphere->specular);
 	int	t = get_t(closest_sphere->color) * light;
 	int	r = get_r(closest_sphere->color) * light;
 	int	g = get_g(closest_sphere->color) * light;
 	int	b = get_b(closest_sphere->color) * light;
+	if (t > 255)
+		t = 255;
+	if (r > 255)
+		r = 255;
+	if (g > 255)
+		g = 255;
+	if (b > 255)
+		b = 255;
+	// if (closest_sphere == &data->spheres[0])
+	// {
+	// printf("light: %f ", light);
+	// printf("T: %d ", t);
+	// printf("R: %d ", r);
+	// printf("G: %d ", g);
+	// printf("B: %d\n", b);
+	// }
 	
-	// return (closest_sphere->color * compute_lighting(data, P, N));
 	return (create_trgb(t, r, g, b));
 }
