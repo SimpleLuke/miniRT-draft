@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:50:15 by llai              #+#    #+#             */
-/*   Updated: 2024/04/24 21:30:45 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 15:10:37 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,14 @@ int	traceray(t_data *data, double t_min, double t_max)
 		g = 255;
 	if (b > 255)
 		b = 255;
+	if (t < 0)
+		t = 0;
+	if (r < 0)
+		r = 0;
+	if (g < 0)
+		g = 0;
+	if (b < 0)
+		b = 0;
 	// if (closest_sphere == &data->spheres[0])
 	// {
 	// printf("light: %f ", light);

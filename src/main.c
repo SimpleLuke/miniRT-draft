@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:43:24 by llai              #+#    #+#             */
-/*   Updated: 2024/04/24 21:32:19 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 15:17:08 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minirt.h"
@@ -52,7 +52,7 @@ int	main(void)
 	data.spheres[3].center.y = -5001;
 	data.spheres[3].center.z = 0;
 	data.spheres[3].color = create_trgb(0, 255, 255, 0);
-	data.spheres[2].specular = 1000; // Very Shiny
+	data.spheres[3].specular = 1000; // Very Shiny
 
 	data.light_nb = 3;
 	data.lights = malloc(data.light_nb * sizeof(t_light));
