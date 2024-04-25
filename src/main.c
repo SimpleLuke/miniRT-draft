@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:43:24 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 20:27:31 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 23:05:41 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minirt.h"
@@ -22,7 +22,8 @@ int	main(void)
 	win = data.base_image.win;
 	data.base_image = new_img(WIDTH, HEIGHT, data.base_image.win);
 
-	data.camera = set_vec3(0, 0, 0);
+	data.camera.position = set_vec3(0, 0, 0);
+	data.camera.rotation = 1;
 	data.v_width = 1;
 	data.v_height = 1;
 	data.distance = 1;
@@ -30,30 +31,22 @@ int	main(void)
 	data.sphere_nb = 4;
 	data.spheres = malloc(data.sphere_nb * sizeof(t_sphere));
 	data.spheres[0].radius = 1;
-	data.spheres[0].center.x = 0;
-	data.spheres[0].center.y = -1;
-	data.spheres[0].center.z = 3;
+	data.spheres[0].center = set_vec3(0, -1, 3);
 	data.spheres[0].color = create_trgb(0, 255, 0, 0);
 	data.spheres[0].specular = 500; // Shiny
 	data.spheres[0].reflective = 0.2; // A bit reflective
 	data.spheres[1].radius = 1;
-	data.spheres[1].center.x = 2;
-	data.spheres[1].center.y = 0;
-	data.spheres[1].center.z = 4;
+	data.spheres[1].center = set_vec3(2, 0, 4);
 	data.spheres[1].color = create_trgb(0, 0, 0, 255);
 	data.spheres[1].specular = 500; // Shiny
 	data.spheres[1].reflective = 0.3; // A bit more reflective
 	data.spheres[2].radius = 1;
-	data.spheres[2].center.x = -2;
-	data.spheres[2].center.y = 0;
-	data.spheres[2].center.z = 4;
+	data.spheres[2].center = set_vec3(-2, 0, 4);
 	data.spheres[2].color = create_trgb(0, 0, 255, 0);
 	data.spheres[2].specular = 10; // Somewhat Shiny
 	data.spheres[2].reflective = 0.4; // Even more reflective
 	data.spheres[3].radius = 5000;
-	data.spheres[3].center.x = 0;
-	data.spheres[3].center.y = -5001;
-	data.spheres[3].center.z = 0;
+	data.spheres[3].center = set_vec3(0, -5001, 0);
 	data.spheres[3].color = create_trgb(0, 255, 255, 0);
 	data.spheres[3].specular = 1000; // Very Shiny
 	data.spheres[3].reflective = 0; // Half reflective
@@ -64,21 +57,18 @@ int	main(void)
 	data.lights[0].intensity = 0.2;
 	data.lights[1].type = POINT;
 	data.lights[1].intensity = 0.6;
-	data.lights[1].position.x = 2;
-	data.lights[1].position.y = 1;
-	data.lights[1].position.z = 0;
+	data.lights[1].position = set_vec3(2, 1, 0);
 	data.lights[2].type = DIRECTIONAL;
 	data.lights[2].intensity = 0.2;
-	data.lights[2].direction.x = 1;
-	data.lights[2].direction.y = 4;
-	data.lights[2].direction.z = 4;
+	data.lights[2].direction = set_vec3(1, 4, 4);
 
 	for (int x = (-1 * WIDTH / 2); x <= WIDTH / 2; x++)
 	{
 		for (int y = (-1 * HEIGHT / 2); y <= HEIGHT / 2; y++)
 		{
+			// data.D = scalar_mul_vec3(data.camera.rotation, canvas_to_viewport(x, y, &data));
 			data.D = canvas_to_viewport(x, y, &data);
-			int		color = traceray(&data, data.camera, data.D, 1, INFINITY, 3);
+			int		color = traceray(&data, data.camera.position, data.D, 1, INFINITY, 3);
 			// int		color = traceray(&data, 1, INFINITY, 3);
 			put_pixel(data.base_image, x, y, color);
 			// put_pixel(data.base_image, x, y, 0xFFFFFFFF);

@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:48 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 20:11:20 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 21:23:32 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,17 @@ typedef struct s_img
 	int		line_len;
 }	t_img;
 
+typedef struct s_camera
+{
+	t_vec3	position;
+	double	rotation;
+}	t_camera;
+
 typedef struct s_data
 {
 	t_img	base_image;
-	t_vec3	camera;
+	// t_vec3	camera;
+	t_camera	camera;
 	double	v_width;
 	double	v_height;
 	double	c_width;
