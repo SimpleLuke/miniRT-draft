@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:15:33 by llai              #+#    #+#             */
-/*   Updated: 2024/04/24 16:04:05 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 18:35:54 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_sphere
 	double	radius;
 	int		color;
 	double	specular;
+	double	reflective;
 }	t_sphere;
 
 #endif // !SHAPE_H

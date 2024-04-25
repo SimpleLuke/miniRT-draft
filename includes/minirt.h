@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:48 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 17:23:57 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 20:11:20 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int		get_t(int trgb);
 int		get_r(int trgb);
 int		get_g(int trgb);
 int		get_b(int trgb);
+int	mul_color(int color, double scalar);
+int	sum_color(int lhs, int rhs);
 
 void	put_pixel(t_img img, int x, int y, int color);
 void	put_pixel_img(t_img img, int x, int y, int color);
@@ -81,7 +83,8 @@ t_vec3	canvas_to_viewport(double x, double y, t_data *data);
 // void	intersect_ray_sphere(t_data *data, t_sphere sphere, double *t1, double *t2);
 // void	intersect_ray_sphere(t_data *data, t_sphere sphere);
 void	intersect_ray_sphere(t_data *data, t_vec3 O, t_vec3 D, t_sphere sphere);
-int		traceray(t_data *data, double t_min, double t_max);
+// int		traceray(t_data *data, double t_min, double t_max);
+int	traceray(t_data *data, t_vec3 O, t_vec3 D, double t_min, double t_max, int recursion_depth);
 
 int		esc_close_win(int keycode, t_data *data);
 int		cross_close_win(t_data *data);

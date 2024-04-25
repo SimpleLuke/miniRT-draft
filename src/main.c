@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:43:24 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 15:40:47 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 20:27:31 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minirt.h"
@@ -35,24 +35,28 @@ int	main(void)
 	data.spheres[0].center.z = 3;
 	data.spheres[0].color = create_trgb(0, 255, 0, 0);
 	data.spheres[0].specular = 500; // Shiny
+	data.spheres[0].reflective = 0.2; // A bit reflective
 	data.spheres[1].radius = 1;
 	data.spheres[1].center.x = 2;
 	data.spheres[1].center.y = 0;
 	data.spheres[1].center.z = 4;
 	data.spheres[1].color = create_trgb(0, 0, 0, 255);
 	data.spheres[1].specular = 500; // Shiny
+	data.spheres[1].reflective = 0.3; // A bit more reflective
 	data.spheres[2].radius = 1;
 	data.spheres[2].center.x = -2;
 	data.spheres[2].center.y = 0;
 	data.spheres[2].center.z = 4;
 	data.spheres[2].color = create_trgb(0, 0, 255, 0);
 	data.spheres[2].specular = 10; // Somewhat Shiny
+	data.spheres[2].reflective = 0.4; // Even more reflective
 	data.spheres[3].radius = 5000;
 	data.spheres[3].center.x = 0;
 	data.spheres[3].center.y = -5001;
 	data.spheres[3].center.z = 0;
 	data.spheres[3].color = create_trgb(0, 255, 255, 0);
 	data.spheres[3].specular = 1000; // Very Shiny
+	data.spheres[3].reflective = 0; // Half reflective
 
 	data.light_nb = 3;
 	data.lights = malloc(data.light_nb * sizeof(t_light));
@@ -74,7 +78,8 @@ int	main(void)
 		for (int y = (-1 * HEIGHT / 2); y <= HEIGHT / 2; y++)
 		{
 			data.D = canvas_to_viewport(x, y, &data);
-			int		color = traceray(&data, 1, INFINITY);
+			int		color = traceray(&data, data.camera, data.D, 1, INFINITY, 3);
+			// int		color = traceray(&data, 1, INFINITY, 3);
 			put_pixel(data.base_image, x, y, color);
 			// put_pixel(data.base_image, x, y, 0xFFFFFFFF);
 		}

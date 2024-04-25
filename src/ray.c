@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:50:15 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 17:28:15 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 20:24:16 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,68 +130,48 @@ double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N, t_vec3 V, double specu
 	return (i);
 }
 
-int	traceray(t_data *data, double t_min, double t_max)
+t_vec3	reflect_ray(t_vec3 R, t_vec3 N)
 {
-	// double		closest_t = INFINITY;
+	t_vec3	v_tmp;
+	double	v_dot_r;
+
+	v_tmp = scalar_mul_vec3(2, N);
+	v_dot_r = dot(v_tmp, R);
+	v_tmp = scalar_mul_vec3(v_dot_r, v_tmp);
+	v_tmp = minus_vec3(v_tmp, R);
+	return (v_tmp);
+}
+
+int	traceray(t_data *data, t_vec3 O, t_vec3 D, double t_min, double t_max, int recursion_depth)
+{
 	t_sphere	*closest_sphere = NULL;
-	// double		t1;
-	// double		t2;
-	// data->closest_t = INFINITY;
-	//
-	// int	i = -1;
-	// while (++i < data->sphere_nb)
-	// {
-	// 	intersect_ray_sphere(data, data->spheres[i]);
-	// 	if (data->t1 >= t_min && data->t1 <= t_max && data->t1 < data->closest_t)
-	// 	{
-	// 		data->closest_t = data->t1;
-	// 		closest_sphere = &data->spheres[i];
-	// 	}
-	// 	if (data->t2 >= t_min && data->t2 <= t_max && data->t2 < data->closest_t)
-	// 	{
-	// 		data->closest_t = data->t2;
-	// 		closest_sphere = &data->spheres[i];
-	// 	}
-	// }
-	closest_sphere = closest_intersection(data, data->camera, data->D, t_min, t_max);
+
+	closest_sphere = closest_intersection(data, O, D, t_min, t_max);
 	if (closest_sphere == NULL)
 	{
-		return (0xFFFFFFFF);
+		// return (0xFFFFFFFF);
+		return (0x000000);
 	}
 
-	t_vec3	P = plus_vec3(data->camera, scalar_mul_vec3(data->closest_t, data->D));
+	t_vec3	P = plus_vec3(O, scalar_mul_vec3(data->closest_t, D));
 	t_vec3	N = minus_vec3(P, closest_sphere->center);
 	N = scalar_dev_vec3(N, v_length(N));
 
-	double light = compute_lighting(data, P, N, scalar_mul_vec3(-1, data->D), closest_sphere->specular);
-	int	t = get_t(closest_sphere->color) * light;
-	int	r = get_r(closest_sphere->color) * light;
-	int	g = get_g(closest_sphere->color) * light;
-	int	b = get_b(closest_sphere->color) * light;
-	if (t > 255)
-		t = 255;
-	if (r > 255)
-		r = 255;
-	if (g > 255)
-		g = 255;
-	if (b > 255)
-		b = 255;
-	if (t < 0)
-		t = 0;
-	if (r < 0)
-		r = 0;
-	if (g < 0)
-		g = 0;
-	if (b < 0)
-		b = 0;
-	// if (closest_sphere == &data->spheres[0])
-	// {
-	// printf("light: %f ", light);
-	// printf("T: %d ", t);
-	// printf("R: %d ", r);
-	// printf("G: %d ", g);
-	// printf("B: %d\n", b);
-	// }
-	
-	return (create_trgb(t, r, g, b));
+	// double light = compute_lighting(data, P, N, scalar_mul_vec3(-1, data->D), closest_sphere->specular);
+	double light = compute_lighting(data, P, N, scalar_mul_vec3(-1, D), closest_sphere->specular);
+
+	int	local_color = mul_color(closest_sphere->color, light);
+	// (void)recursion_depth;
+	double refl = closest_sphere->reflective;
+	if (recursion_depth <= 0 || refl <= 0)
+	{
+		return (local_color);
+	}
+
+	// Compute the reflectived color
+	t_vec3	R = reflect_ray(scalar_mul_vec3(-1, D), N);
+	int	refl_color = traceray(data, P, R, 0.001, INFINITY, recursion_depth - 1);
+	local_color = mul_color(local_color, (1 - refl));
+	refl_color = mul_color(refl_color, refl);
+	return (sum_color(local_color, refl_color));
 }
