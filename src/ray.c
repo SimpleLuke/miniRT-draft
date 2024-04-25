@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:50:15 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 17:23:37 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 17:28:15 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N, t_vec3 V, double specu
 	t_vec3	L;
 	double	i = 0.0;
 	int	idx = -1;
+	double	t_max;
+
 	while (++idx < data->light_nb)
 	{
 		if (data->lights[idx].type == AMBIENT)
@@ -83,10 +85,19 @@ double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N, t_vec3 V, double specu
 			if (data->lights[idx].type == POINT)
 			{
 				L = minus_vec3(data->lights[idx].position, P);
+				t_max = 1;
 			}
 			else if (data->lights[idx].type == DIRECTIONAL)
 			{
 				L = data->lights[idx].direction;
+				t_max = INFINITY;
+			}
+
+			// Shadow check
+			t_sphere	*shadow_sphere = closest_intersection(data, P, L, 0.001, t_max);
+			if (shadow_sphere != NULL)
+			{
+				continue;
 			}
 
 			// Diffuse
