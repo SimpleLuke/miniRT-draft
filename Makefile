@@ -2,8 +2,15 @@ BIN = bin
 NAME = miniRT
 CC = cc
 CFLAG = -Wall -Werror -Wextra -g3
-SRC_PATH = ./src/
-SRC = $(wildcard $(SRC_PATH)*.c)
+#SRC_PATH = ./src/
+# SRC = $(wildcard $(SRC_PATH)*.c)
+SRC = src/close.c \
+	  src/color.c \
+	  src/image.c \
+	  src/init.c \
+	  src/main.c \
+	  src/ray.c \
+	  src/vec3.c
 OBJ = $(SRC:src/%c=$(BIN)/%o)
 INCS = includes
 LIBFT_PATH = libft

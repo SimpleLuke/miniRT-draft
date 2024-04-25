@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:50:15 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 15:10:37 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 17:23:37 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,48 @@ t_vec3	canvas_to_viewport(double x, double y, t_data *data)
 	return (D);
 }
 
-void	intersect_ray_sphere(t_data *data, t_sphere sphere, double *t1, double *t2)
+void	intersect_ray_sphere(t_data *data, t_vec3 O, t_vec3 D, t_sphere sphere)
 {
 	double	r = sphere.radius;
-	t_vec3	co = minus_vec3(data->camera, sphere.center);
+	t_vec3	co = minus_vec3(O, sphere.center);
 
-	double	a = dot(data->D, data->D);
-	double	b = 2 * dot(co, data->D);
+	double	a = dot(D, D);
+	double	b = 2 * dot(co, D);
 	double	c = dot(co, co) - r * r;
 
 	double	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
 	{
-		*t1 = INFINITY;
-		*t2 = INFINITY;
+		data->t1 = INFINITY;
+		data->t2 = INFINITY;
 	}
 
-	*t1 = (-b + sqrt(discriminant)) / (2 * a);
-	*t2 = (-b - sqrt(discriminant)) / (2 * a);
+	data->t1 = (-b + sqrt(discriminant)) / (2 * a);
+	data->t2 = (-b - sqrt(discriminant)) / (2 * a);
+}
+
+t_sphere	*closest_intersection(t_data *data, t_vec3 O, t_vec3 D, double t_min, double t_max)
+{
+	t_sphere	*closest_sphere = NULL;
+
+	data->closest_t = INFINITY;
+
+	int	i = -1;
+	while (++i < data->sphere_nb)
+	{
+		intersect_ray_sphere(data, O, D, data->spheres[i]);
+		if (data->t1 >= t_min && data->t1 <= t_max && data->t1 < data->closest_t)
+		{
+			data->closest_t = data->t1;
+			closest_sphere = &data->spheres[i];
+		}
+		if (data->t2 >= t_min && data->t2 <= t_max && data->t2 < data->closest_t)
+		{
+			data->closest_t = data->t2;
+			closest_sphere = &data->spheres[i];
+		}
+	}
+	return (closest_sphere);
 }
 
 double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N, t_vec3 V, double specular)
@@ -97,32 +121,34 @@ double	compute_lighting(t_data *data, t_vec3 P, t_vec3 N, t_vec3 V, double specu
 
 int	traceray(t_data *data, double t_min, double t_max)
 {
-	double		closest_t = INFINITY;
+	// double		closest_t = INFINITY;
 	t_sphere	*closest_sphere = NULL;
-	double		t1;
-	double		t2;
-
-	int	i = -1;
-	while (++i < data->sphere_nb)
-	{
-		intersect_ray_sphere(data, data->spheres[i], &t1, &t2);
-		if (t1 >= t_min && t1 <= t_max && t1 < closest_t)
-		{
-			closest_t = t1;
-			closest_sphere = &data->spheres[i];
-		}
-		if (t2 >= t_min && t2 <= t_max && t2 < closest_t)
-		{
-			closest_t = t2;
-			closest_sphere = &data->spheres[i];
-		}
-	}
+	// double		t1;
+	// double		t2;
+	// data->closest_t = INFINITY;
+	//
+	// int	i = -1;
+	// while (++i < data->sphere_nb)
+	// {
+	// 	intersect_ray_sphere(data, data->spheres[i]);
+	// 	if (data->t1 >= t_min && data->t1 <= t_max && data->t1 < data->closest_t)
+	// 	{
+	// 		data->closest_t = data->t1;
+	// 		closest_sphere = &data->spheres[i];
+	// 	}
+	// 	if (data->t2 >= t_min && data->t2 <= t_max && data->t2 < data->closest_t)
+	// 	{
+	// 		data->closest_t = data->t2;
+	// 		closest_sphere = &data->spheres[i];
+	// 	}
+	// }
+	closest_sphere = closest_intersection(data, data->camera, data->D, t_min, t_max);
 	if (closest_sphere == NULL)
 	{
 		return (0xFFFFFFFF);
 	}
 
-	t_vec3	P = plus_vec3(data->camera, scalar_mul_vec3(closest_t, data->D));
+	t_vec3	P = plus_vec3(data->camera, scalar_mul_vec3(data->closest_t, data->D));
 	t_vec3	N = minus_vec3(P, closest_sphere->center);
 	N = scalar_dev_vec3(N, v_length(N));
 

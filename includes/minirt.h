@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:48 by llai              #+#    #+#             */
-/*   Updated: 2024/04/23 01:51:17 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/25 17:23:57 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ typedef struct s_data
 	int		light_nb;
 	t_light		*lights;
 	t_vec3	D; //ray
+	double	t1;
+	double	t2;
+	double	closest_t;
 }	t_data;
 
 t_win	new_window(int w, int h, char *str);
@@ -75,7 +78,9 @@ void	put_pixel_img(t_img img, int x, int y, int color);
 t_img	new_img(int width, int height, t_win window);
 
 t_vec3	canvas_to_viewport(double x, double y, t_data *data);
-void	intersect_ray_sphere(t_data *data, t_sphere sphere, double *t1, double *t2);
+// void	intersect_ray_sphere(t_data *data, t_sphere sphere, double *t1, double *t2);
+// void	intersect_ray_sphere(t_data *data, t_sphere sphere);
+void	intersect_ray_sphere(t_data *data, t_vec3 O, t_vec3 D, t_sphere sphere);
 int		traceray(t_data *data, double t_min, double t_max);
 
 int		esc_close_win(int keycode, t_data *data);
