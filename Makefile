@@ -10,7 +10,9 @@ SRC = src/close.c \
 	  src/init.c \
 	  src/main.c \
 	  src/ray.c \
-	  src/vec3.c
+	  src/vec3.c \
+	  src/render.c \
+	  src/control.c
 OBJ = $(SRC:src/%c=$(BIN)/%o)
 INCS = includes
 LIBFT_PATH = libft

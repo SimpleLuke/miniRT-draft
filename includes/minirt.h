@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:48 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 21:23:32 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/26 15:37:44 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,20 @@
 # include "light.h"
 # include <math.h>
 
-# define ESC_KEY 0xff1b
+// # define ESC_KEY 0xff1b
 # define HEIGHT 1080
 # define WIDTH 1080
+# define BG_COLOR 0x000000
 
 // typedef struct s_vec3 t_vec3;
+typedef enum e_keycode
+{
+	ESC_KEY = 0xff1b,
+	W_KEY = 119,
+	S_KEY = 115,
+	D_KEY = 100,
+	A_KEY = 97,
+}	t_keycode;
 
 typedef struct s_win
 {
@@ -93,8 +102,16 @@ void	intersect_ray_sphere(t_data *data, t_vec3 O, t_vec3 D, t_sphere sphere);
 // int		traceray(t_data *data, double t_min, double t_max);
 int	traceray(t_data *data, t_vec3 O, t_vec3 D, double t_min, double t_max, int recursion_depth);
 
+// Render.c
+void	render(t_data *data);
+void	clear_image(t_data *data);
+
+// control.c
+int	key_down(int keycode, t_data *data);
+
+// close.c
+int	destroy_window(t_data *data);
 int		esc_close_win(int keycode, t_data *data);
 int		cross_close_win(t_data *data);
-
 
 #endif // !MINIRT_H

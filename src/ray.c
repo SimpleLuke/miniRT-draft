@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:50:15 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 20:24:16 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/26 15:01:42 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int	traceray(t_data *data, t_vec3 O, t_vec3 D, double t_min, double t_max, int r
 	if (closest_sphere == NULL)
 	{
 		// return (0xFFFFFFFF);
-		return (0x000000);
+		return (BG_COLOR);
 	}
 
 	t_vec3	P = plus_vec3(O, scalar_mul_vec3(data->closest_t, D));

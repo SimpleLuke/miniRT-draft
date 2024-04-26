@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 14:02:51 by llai              #+#    #+#             */
-/*   Updated: 2024/04/20 14:37:00 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/26 15:16:11 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	put_pixel_img(t_img img, int x, int y, int color)
 {
 	char	*dst;
 
-	if (color == (int)0xFF000000 || color == 0)
+	if (color == (int)0xFF000000)
 		return ;
 	dst = img.addr + (y * img.line_len + x * (img.bpp / 8));
 	*(unsigned int *)dst = color;

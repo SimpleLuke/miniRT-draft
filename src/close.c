@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 14:05:03 by llai              #+#    #+#             */
-/*   Updated: 2024/04/20 14:07:39 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/26 15:43:04 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	destroy_window(t_data *data)
 
 int	esc_close_win(int keycode, t_data *data)
 {
+	// printf("Key: %d\n", keycode);
 	if (keycode == ESC_KEY)
 	{
 		destroy_window(data);

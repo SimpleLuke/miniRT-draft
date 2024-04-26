@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:43:24 by llai              #+#    #+#             */
-/*   Updated: 2024/04/25 23:05:41 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/26 15:43:21 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minirt.h"
@@ -62,22 +62,11 @@ int	main(void)
 	data.lights[2].intensity = 0.2;
 	data.lights[2].direction = set_vec3(1, 4, 4);
 
-	for (int x = (-1 * WIDTH / 2); x <= WIDTH / 2; x++)
-	{
-		for (int y = (-1 * HEIGHT / 2); y <= HEIGHT / 2; y++)
-		{
-			// data.D = scalar_mul_vec3(data.camera.rotation, canvas_to_viewport(x, y, &data));
-			data.D = canvas_to_viewport(x, y, &data);
-			int		color = traceray(&data, data.camera.position, data.D, 1, INFINITY, 3);
-			// int		color = traceray(&data, 1, INFINITY, 3);
-			put_pixel(data.base_image, x, y, color);
-			// put_pixel(data.base_image, x, y, 0xFFFFFFFF);
-		}
-	}
+	render(&data);
 
-	mlx_put_image_to_window(data.base_image.win.mlx,
-		data.base_image.win.win_ptr, data.base_image.img_ptr, 0, 0);
 	mlx_hook(win.win_ptr, 2, 1L << 0, esc_close_win, &data);
+	// mlx_hook(win.win_ptr, 2, 1L << 0, key_down, &data);
+	mlx_key_hook(win.win_ptr, key_down, &data);
 	mlx_hook(win.win_ptr, 17, 0, cross_close_win, &data);
 	mlx_loop(data. base_image.win.mlx);
 }
