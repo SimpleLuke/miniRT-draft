@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:49:48 by llai              #+#    #+#             */
-/*   Updated: 2024/04/26 15:37:44 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/26 16:27:28 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,15 @@ typedef enum e_keycode
 	S_KEY = 115,
 	D_KEY = 100,
 	A_KEY = 97,
+	X_KEY = 120,
+	Z_KEY = 122,
 }	t_keycode;
+
+typedef enum e_mousecode
+{
+	MOUSE_UP = 4,
+	MOUSE_DOWN = 5,
+}	t_mousecode;
 
 typedef struct s_win
 {
@@ -108,6 +116,7 @@ void	clear_image(t_data *data);
 
 // control.c
 int	key_down(int keycode, t_data *data);
+int	mouse_hook(int mousecode, t_data *data);
 
 // close.c
 int	destroy_window(t_data *data);

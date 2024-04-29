@@ -6,7 +6,7 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:43:24 by llai              #+#    #+#             */
-/*   Updated: 2024/04/26 15:43:21 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/26 16:27:23 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minirt.h"
@@ -64,9 +64,11 @@ int	main(void)
 
 	render(&data);
 
+	printf("OUT:%f\n", data.camera.position.z);
 	mlx_hook(win.win_ptr, 2, 1L << 0, esc_close_win, &data);
 	// mlx_hook(win.win_ptr, 2, 1L << 0, key_down, &data);
 	mlx_key_hook(win.win_ptr, key_down, &data);
+	mlx_mouse_hook(win.win_ptr, mouse_hook, &data);
 	mlx_hook(win.win_ptr, 17, 0, cross_close_win, &data);
 	mlx_loop(data. base_image.win.mlx);
 }

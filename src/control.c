@@ -6,11 +6,12 @@
 /*   By: llai <llai@student.42london.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:53:23 by llai              #+#    #+#             */
-/*   Updated: 2024/04/26 15:42:49 by llai             ###   ########.fr       */
+/*   Updated: 2024/04/26 16:27:32 by llai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+#include <stdio.h>
 
 
 int	key_down(int keycode, t_data *data)
@@ -40,6 +41,39 @@ int	key_down(int keycode, t_data *data)
 	{
 		data->camera.position.x -= 0.1;
 		render(data);
+	}
+	else if (keycode == X_KEY)
+	{
+		data->camera.position.z += 0.1;
+		render(data);
+	}
+	else if (keycode == Z_KEY)
+	{
+		data->camera.position.z -= 0.1;
+		render(data);
+	}
+	return (0);
+}
+
+int	mouse_hook(int mousecode, t_data *data)
+{
+	// int	a = 5;
+	(void)data;
+	// printf("mouse: %d\n", mousecode);
+	// printf("%f\n", data->camera.position.z);
+	if (mousecode == MOUSE_UP)
+	{
+		// printf("UP\n");
+		// data->camera.position.z += 0.1;
+		// printf("%f\n", data->camera.position.z);
+		// data->camera.position.z = 10;
+		// render(data);
+	}
+	else if (mousecode == MOUSE_DOWN)
+	{
+		// printf("DOWN\n");
+		// data->camera.position.z -= 0.1;
+		// render(data);
 	}
 	return (0);
 }
